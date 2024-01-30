@@ -13,5 +13,3 @@ RUN apt-get update; \
 
 COPY . .
 ENTRYPOINT [ "sh", "./entrypoint.sh" ]
-# HEALTHCHECK --interval=10s --timeout=5s --retries=3 CMD wget --no-verbose --tries=1 --spider http://127.0.0.1:8000/core/health/ || exit 1
-# RUN chmod +x /app/entrypoint.sh

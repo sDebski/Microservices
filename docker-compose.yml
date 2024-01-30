@@ -5,7 +5,7 @@ services:
     build:
       context: ./users
     env_file:
-      - ./.env
+      - .env
     expose:
       - "8000"
     volumes:
@@ -18,7 +18,7 @@ services:
   psql_db:
     image: postgres:14-alpine
     env_file:
-      - ./.env
+      - .env
     expose:
       - "5432:5432"
     command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
@@ -36,14 +36,14 @@ services:
     volumes:
       - static_volume:/app/staticfiles
 
-
   mq-consumer:
     build:
       context: ./email_service
     env_file:
-      - ./.env
+      - .env
     depends_on:
       - users-django
+      - mq
     volumes:
       - ./email_service:/app
     logging:
@@ -52,6 +52,26 @@ services:
         max-file: "3"
     restart: unless-stopped
     command: python3 manage.py run_consumer
+
+  email-celery:
+    build:
+      context: ./email_service
+    command: celery -A email_service worker -l INFO
+    volumes:
+      - ./email_service:/app
+    depends_on:
+      - mq-consumer
+
+  mq:
+        image: rabbitmq:3-management
+        ports:
+            - 5672:5672
+            - 15672:15672
+        healthcheck:
+          test: rabbitmq-diagnostics -q ping
+          interval: 5s
+          timeout: 5s
+          retries: 5
 volumes:
   static_volume:
   db_volume:

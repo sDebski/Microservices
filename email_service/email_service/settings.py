@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core'
 ]
 
 MIDDLEWARE = [
@@ -121,3 +123,20 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# rabbitmq
+MQ_USERNAME = os.environ.get("MQ_USERNAME")
+MQ_PASSWORD = os.environ.get("MQ_PASSWORD")
+MQ_HOST = os.environ.get("MQ_HOST")
+MQ_PORT = os.environ.get("MQ_PORT")
+MQ_URL = f"amqp://{MQ_USERNAME}:{MQ_PASSWORD}@{MQ_HOST}:{MQ_PORT}"
+
+# celery
+CELERY_BROKER_URL = MQ_URL
+
+# email
+EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
+# EMAIL_HOST = env.str("EMAIL_HOST")
+# EMAIL_PORT = env.str("EMAIL_PORT")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")

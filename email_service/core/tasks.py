@@ -4,6 +4,10 @@ from django.core.mail import send_mail
 
 
 @shared_task
+def add(x, y):
+    return x + y
+
+@shared_task
 def queue_welcome_email(username, email):
     send_mail(
         "Welcome!",

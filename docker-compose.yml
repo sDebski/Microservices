@@ -35,6 +35,23 @@ services:
       - users-django
     volumes:
       - static_volume:/app/staticfiles
+
+
+  mq-consumer:
+    build:
+      context: ./email_service
+    env_file:
+      - ./.env
+    depends_on:
+      - users-django
+    volumes:
+      - ./email_service:/app
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "3"
+    restart: unless-stopped
+    command: python3 manage.py run_consumer
 volumes:
   static_volume:
   db_volume:

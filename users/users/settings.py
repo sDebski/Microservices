@@ -132,3 +132,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MQ_USERNAME = os.environ.get("MQ_USERNAME", "guest")
+MQ_PASSWORD = os.environ.get("MQ_PASSWORD", "guest")
+MQ_HOST = os.environ.get("MQ_HOST", "mq")
+MQ_PORT = os.environ.get("MQ_PORT", "5672")
+MQ_URL = f"amqp://{MQ_USERNAME}:{MQ_PASSWORD}@{MQ_HOST}:{MQ_PORT}/"
+

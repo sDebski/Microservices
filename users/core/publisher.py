@@ -57,6 +57,3 @@ class Publish:
     def close(self):
         if self._conn and self._conn.is_open:
             self._conn.close()
-
-    def publish(self, msg):
-        print("Message published:", msg)

@@ -1,6 +1,7 @@
 import json
 import pika
 from django.conf import settings
+from core import tasks
 
 
 class Consumer:
@@ -25,6 +26,9 @@ class Consumer:
         message = json.loads(decoded).values()
 
         print(message)
+
+        tasks.queue_welcome_email.delay("test1", "test2")
+
     
     def _bind_queues_to_callback(self):
         for queue, callback in self.QUEUES_CALLBACKS.items():

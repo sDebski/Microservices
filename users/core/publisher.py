@@ -36,6 +36,7 @@ class Publish:
             body=json.dumps(msg),
             properties=properties,
         )
+        print('udalo sie publishowac')
 
     def publish(
         self,
@@ -46,9 +47,12 @@ class Publish:
         routing_key=DEFAULT_ROUTING_KEY,
         properties=DEFAULT_PROPERTIES,
     ):
+        print('START: publishuje msg')
+        print('msg:', msg)
         try:
             self._publish(msg, exchange, routing_key, properties)
         except:
+            print("except")
             self.connect(exchange, exchange_type, queue, routing_key)
             self._publish(msg, exchange, routing_key, properties)
         finally:

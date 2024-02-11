@@ -14,7 +14,7 @@ class Consumer:
         self._channel = None
 
     def connect(self):
-        if not self._conn and self._conn.is_closed:
+        if not self._conn or self._conn.is_closed:
             print(f"Connecting to {settings.MQ_URL}")
             self._conn = pika.BlockingConnection(self._params)
             self._channel = self._conn.channel()
@@ -34,3 +34,7 @@ class Consumer:
     def consume(self):
         self._bind_queues_to_callback()
         self._channel.start_consuming()
+
+    def close(self):
+        if self._conn and self._conn.is_open():
+            self._conn.close()

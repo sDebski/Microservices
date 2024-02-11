@@ -7,7 +7,10 @@ class Command(BaseCommand):
 
     def _run_consumer(self, consumer):
         print('Consumer starts consuming...')
-        consumer.consume()
+        try:
+            consumer.connect()
+        except:
+            self._run_consumer(consumer)
 
     def handle(self, *args, **options):
         self.stdout.write("Starting AMQP consumer...", self.style.WARNING)

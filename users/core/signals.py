@@ -15,4 +15,9 @@ def queue_user_save(instance, created, **kwargs):
     body = {"username": instance.username,
             "email": instance.email}
     
-    publisher.publish(msg=body)
+    publisher.publish(
+        msg=body, 
+        exchange="email", 
+        queue="email_service_queue",
+        routing_key="email_service_queue",
+    )

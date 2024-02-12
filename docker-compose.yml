@@ -43,7 +43,7 @@ services:
       - .env
     depends_on:
       - users-django
-      - mq
+      - rabbit_mq
     volumes:
       - ./email_service:/app
     logging:
@@ -62,16 +62,18 @@ services:
     depends_on:
       - mq-consumer
 
-  mq:
-        image: rabbitmq:3-management
-        ports:
-            - 5672:5672
-            - 15672:15672
-        healthcheck:
-          test: rabbitmq-diagnostics -q ping
-          interval: 5s
-          timeout: 5s
-          retries: 5
+  rabbit_mq:
+    image: rabbitmq:3.12.10-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"  
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
 volumes:
   static_volume:
   db_volume:

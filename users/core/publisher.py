@@ -1,6 +1,10 @@
 import pika
 from django.conf import settings
 import json
+from pika.exceptions import (
+    ChannelWrongStateError,
+    StreamLostError,
+)
 
 
 class Publish:
@@ -9,7 +13,7 @@ class Publish:
     DEFAULT_QUEUE = "default"
     DEFAULT_ROUTING_KEY = "default"
     DEFAULT_PROPERTIES = pika.BasicProperties(
-        content_type="application/json", headers={"Demo": "Hello headers!"}
+        content_type="application/json", headers={}
     )
 
     def __init__(self) -> None:
@@ -19,7 +23,10 @@ class Publish:
 
     def connect(self, exchange, exchange_type, queue, routing_key):
         if not self._conn or self._conn.is_closed:
-            self._conn = pika.BlockingConnection(self._param)
+            print('Wszedlem do connect')
+            print(self._params)
+            self._conn = pika.BlockingConnection(self._params)
+            print('conn: ', self._conn)
             self._channel = self._conn.channel()
             self._channel.exchange_declare(
                 exchange=exchange, exchange_type=exchange_type
@@ -28,6 +35,8 @@ class Publish:
             self._channel.queue_bind(
                 queue=queue, exchange=exchange, routing_key=routing_key
             )
+            print('channel: ', self._channel)
+        
 
     def _publish(self, msg, exchange, routing_key, properties):
         self._channel.basic_publish(
@@ -36,7 +45,7 @@ class Publish:
             body=json.dumps(msg),
             properties=properties,
         )
-        print('udalo sie publishowac')
+        print("udalo sie publishowac")
 
     def publish(
         self,
@@ -47,11 +56,11 @@ class Publish:
         routing_key=DEFAULT_ROUTING_KEY,
         properties=DEFAULT_PROPERTIES,
     ):
-        print('START: publishuje msg')
-        print('msg:', msg)
+        print("START: publishuje msg")
+        print("msg:", msg)
         try:
             self._publish(msg, exchange, routing_key, properties)
-        except:
+        except (AttributeError, StreamLostError, ChannelWrongStateError):
             print("except")
             self.connect(exchange, exchange_type, queue, routing_key)
             self._publish(msg, exchange, routing_key, properties)

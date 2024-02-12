@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from email_service.consumer import Consumer
+from pika.exceptions import AMQPConnectionError
 
 
 class Command(BaseCommand):
@@ -9,7 +10,7 @@ class Command(BaseCommand):
         print('Consumer starts consuming...')
         try:
             consumer.connect()
-        except:
+        except AMQPConnectionError:
             self._run_consumer(consumer)
 
     def handle(self, *args, **options):

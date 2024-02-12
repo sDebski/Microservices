@@ -128,9 +128,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # rabbitmq
 MQ_USERNAME = os.environ.get("MQ_USERNAME", "guest")
 MQ_PASSWORD = os.environ.get("MQ_PASSWORD", "guest")
-MQ_HOST = os.environ.get("MQ_HOST", "mq")
+MQ_HOST = os.environ.get("MQ_HOST", "rabbit_mq")
 MQ_PORT = os.environ.get("MQ_PORT", "5672")
-MQ_URL = f"amqp://{MQ_USERNAME}:{MQ_PASSWORD}@{MQ_HOST}:{MQ_PORT}/"
+MQ_URL = f"amqp://{MQ_USERNAME}:{MQ_PASSWORD}@{MQ_HOST}:{MQ_PORT}"
 
 # celery
 CELERY_BROKER_URL = MQ_URL
@@ -139,4 +139,4 @@ CELERY_BROKER_URL = MQ_URL
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
 # EMAIL_HOST = env.str("EMAIL_HOST")
 # EMAIL_PORT = env.str("EMAIL_PORT")
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "test@user.pl")

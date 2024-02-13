@@ -13,6 +13,8 @@ class Command(BaseCommand):
         except AMQPConnectionError:
             self._run_consumer(consumer)
 
+        consumer.consume()
+
     def handle(self, *args, **options):
         self.stdout.write("Starting AMQP consumer...", self.style.WARNING)
 

@@ -23,16 +23,16 @@ class Consumer:
     def get_email_data(self, channel, method, properties, body):
 
         decoded = body.decode()
-        message = json.loads(decoded).values()
+        user, email = json.loads(decoded).values()
 
-        print(message)
+        print(user, email)
 
-        tasks.queue_welcome_email.delay("test1", "test2")
+        tasks.queue_send_email.delay(user, email)
 
     
     def _bind_queues_to_callback(self):
         for queue, callback in self.QUEUES_CALLBACKS.items():
-            self._channel.queue_declare(queue=queue)
+            self._channel.queue_declare(queue=queue, durable=True)
             self._channel.basic_consume(queue=queue, on_message_callback=getattr(self, callback), auto_ack=True)
 
     def consume(self):

@@ -138,3 +138,4 @@ MQ_HOST = os.environ.get("MQ_HOST", "rabbit_mq")
 MQ_PORT = os.environ.get("MQ_PORT", "5672")
 MQ_URL = f"amqp://{MQ_USERNAME}:{MQ_PASSWORD}@{MQ_HOST}:{MQ_PORT}"
 
+AUTH_USER_MODEL = "core.User"

@@ -50,7 +50,7 @@ services:
       options:
         max-size: "5m"
         max-file: "3"
-    restart: unless-stopped
+    restart: always
     command: python3 manage.py run_consumer
 
   email-celery:

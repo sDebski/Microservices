@@ -10,8 +10,9 @@ class Command(BaseCommand):
         print('Consumer starts consuming...')
         try:
             consumer.connect()
-            time.sleep(1)
+            
         except AMQPConnectionError:
+            time.sleep(1)
             self._run_consumer(consumer)
 
         consumer.consume()

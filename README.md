@@ -7,9 +7,11 @@
 
 - Django
 - Celery
+- Pika
 - RabbitMQ
 - PostgreSQL
 - Docker
+- Nginx
 - Docker Compose
 
 ## ✉️ About

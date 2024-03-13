@@ -61,6 +61,8 @@ services:
       - ./email_service:/app
     depends_on:
       - mq-consumer
+    env_file:
+      - .env
 
   rabbit_mq:
     image: rabbitmq:3.12.10-management

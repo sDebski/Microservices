@@ -139,4 +139,4 @@ CELERY_BROKER_URL = MQ_URL
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
 # EMAIL_HOST = env.str("EMAIL_HOST")
 # EMAIL_PORT = env.str("EMAIL_PORT")
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "test@user.pl")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "system@mail.com")

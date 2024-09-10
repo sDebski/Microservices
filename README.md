@@ -62,7 +62,7 @@ login: admin
 password: admin
 ```
 
-- Go into celery contener named: `microservices-email-celery-1`
+- Go into celery container named: `microservices-email-celery-1`
 and see that email is being send via console during updating or creating user in users app:
 
 ```
